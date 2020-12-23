@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>Car details</title>
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+  <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+    {% include "header.html" %}
+    <div class ='col-sm-6 col-sm-offset-3 mt-5 pt-5' style="padding-top:10rem">
+        <div class="list-group-item active">
+          <strong><span class="glyphicon glyphicon-film"></span> Vehicle Features</strong>
+        </div>
+        {% if car.image %}
+        <img src='{{ car.image.url }}' class="img-responsive"/>
+        {% endif %}
+        <a href="" class="list-group-item"><strong>Car Name   : </strong>{{car.name}}</a>
+        <a href="" class="list-group-item"><strong>Registration number : </strong>{{car.reg_number}}</a>
+        <a href="" class="list-group-item"><strong>Availability  : </strong>{% if car.availability == 1 %} Yes {% else %} No {% endif %}</a>
+
+        <br/>
+        <br/>
+        <form method="post" action="/book_car/">
+          <div class="  text-xl-center">
+            <h4><b>Select Category</b> </h4>
+
+            <div class="form" method="POST">
+              {% csrf_token %}
+              <hr />
+               {% for cat in category %}
+              <!--loop to display all addresses of user-->
+
+              <div class="form-check my-3 text-left col-6">
+                <input class="form-check-input" type="radio" name="cat_choice" id="{{cat.id}}" value="{{cat.id}}" style="position:absolute;    
+                 margin-left: -1.25rem;"
+                  checked />
+                <label class="form-check-label text-left" for="exampleRadios1" style="margin-left: 10px;">
+                  {{cat.name}}<br />Luggage weight - {{cat.luggage}}<br />Maximum number of people - {{cat.num_people}}<br />
+                  Cost per day - {{cat.cost}}<br/>Late fee per hour - {{cat.late_fee}}
+                </label>
+                
+              </div>
+              <hr />
+              {% endfor %}
+              <input type="hidden" value="{{car.id}}" name="car_id" />
+            </div>
+          </div>
+
+          <!-- <div class=""
+          style="border: solid 2px rgb(230, 230, 230)">
+          {% if addr_len == 0 %}
+
+          <div class="mt-4 text-center">
+            <h5>No saved address</h5>
+          </div>
+          {% endif %}
+          <div class="mt-4 text-center">
+            <h5>Add address to continue</h5>
+          </div>
+          <div class="text-center">
+            <a href="/add_address_form">
+              <button class="btn btn-lg btn-primary">Add address</button></a>
+          </div>
+          
+            <div class="  mt-4 text-xl-center">
+              <h4>Select Address</h4>
+
+              <div class="form" method="POST">
+                {% csrf_token %}
+                <hr />
+                {% if addr_len %} {% for adr in user_address %}
+
+                <div class="form-check my-3 text-left">
+                  <input class="form-check-input" type="radio" name="adr_choice" id="{{adr.address}}" value="{{adr.id}}"
+                    checked />
+                  <label class="form-check-label text-left" for="exampleRadios1">
+                    {{adr.address}}<br />{{adr.city}} - {{adr.pincode}}<br />{{adr.state}}
+                  </label>
+                </div>
+                <hr />
+                {% endfor %}
+              </div>
+
+              {% endif %}
+            </div>
+
+        </div> -->
+
+          <div class="col-sm-12 col-md-9 col-xl-12 text-right my-5 text-xl-center">
+            <button class="btn btn-lg btn-block text-uppercase col-8 col-xl-12" type="submit"
+            style="background-image: linear-gradient(
+                    rgb(250, 133, 0),
+                    rgb(255, 193, 123)
+                  );
+                "><b>Book</b>
+              
+            </button>
+            
+          </div>
+        </form>
+      
+      </div>
+</body>

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="keywords" content="handcrafts, indian handcrafts, handmade, type all meta keywords here" />
+  <meta name="description" content="place the meta description text here" />
+  <title>Enter the delivery address for this order</title>
+  
+  <link rel="icon" href="/static/img/logo.ico" type="image/x-icon" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Round|Material+Icons+Two+Tone|Material+Icons+Sharp" />
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.1/css/bootstrap-datepicker.min.css"/>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" 
+    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+   <!-- Font Awesome -->
+
+<!-- Moment.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.23.0/moment.min.js" 
+integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="anonymous"></script>
+
+<!-- Tempus Dominus Bootstrap 4 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" 
+    integrity="sha256-XPTBwC3SBoWHSmKasAk01c08M6sIA5gF5+sRxqak2Qs=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js" 
+    integrity="sha256-z0oKYg6xiLq3yJGsp/LsY9XykbweQlHl42jHv2XTBz4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.1/js/bootstrap-datepicker.min.js"></script>
+
+    <script type="text/javascript">
+    function place_order() {
+      alert("order successfully placed ");
+    }
+    function validate() {
+      var z = document.forms["myForm"]["address"].value;
+      var a = document.forms["myForm"]["city"].value;
+      var b = document.forms["myForm"]["state"].value;
+      var c = document.forms["myForm"]["pincode"].value;
+      if (z == "" || a == "" || b == "" || c == "") {
+        alert("Fill all the details");
+        return false;
+      } else {
+          if (isNaN(c) || c.length != 6) {
+            alert("Enter pincode properly");
+            return false;
+          } else {
+            alert("Addedd address");
+            return true;
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    h4 {
+      color: rgb(0, 44, 70);
+      font-weight: 700 !important;
+    }
+    .dropdown-menu{
+      width:50rem;!important
+    }
+  </style>
+</head>
+
+<body>
+  {% include "header.html" %}
+  <div class="container" style="padding-top:10rem">
+
+    
+    <form name="myForm" action="/add_address/" method="post" onsubmit="return validate()">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="fname"><span class="material-icons-two-tone md-light"
+            style="font-size: 30px; vertical-align: middle">account_circle
+          </span>
+          Full Name</label>
+        <input class="form-control ml-md-4" type="text" id="fname" name="name"
+          placeholder="John M. Doe" />
+      </div>
+      <div class="form-group">
+        <label for="email"><span class="material-icons-two-tone md-light"
+            style="font-size: 30px; vertical-align: middle">phone_in_talk
+          </span>
+          Phno</label>
+        <input class="form-control ml-md-4" type="number" id="phno" name="phone" placeholder="1111111111" />
+      </div>
+      <div class="form-group">
+        <label for="dl_num"><span class="material-icons-two-tone md-light"
+            style="font-size: 30px; vertical-align: middle">account_circle
+          </span>
+          DL number</label>
+        <input class="form-control ml-md-4" type="text" id="dl_num" name="dl_num"
+          placeholder="DL number" />
+      </div>
+
+      <h4 class="my-4" style="padding-top:7rem">Pickup Address</h4>
+      <div class="row">
+        <div class="w-75 col-md-9">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-9">
+                
+                <div class="form-group">
+                  <label for="adr"><span class="material-icons-two-tone md-light"
+                      style="font-size: 30px; vertical-align: middle">place
+                    </span>
+                    Address</label>
+                  <input class="form-control ml-md-4" type="text" id="adr" name="pick_address"
+                    placeholder="542 W. 15th Street" />
+                </div>
+                <div class="form-group ml-md-4">
+                  <label for="city"> City</label>
+                  <input class="form-control" type="text" id="city" name="pick_city" placeholder="New York" />
+                </div>
+
+                <div class="row">
+                  <div class="col-md-9">
+                    <div class="form-group ml-md-4">
+                      <!-- <label for="state">State</label>
+                      <input class="form-control" type="text" id="state" name="state" placeholder="NY" /> -->
+                      <label for="state">State</label>
+                      <select required id="state" class="form-control" name="pick_state">
+                        <option selected disabled value="">Choose...</option>
+                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                        <option value="Andaman and Nicobar Island">
+                          Andaman and Nicobar Islands
+                        </option>
+                        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                        <option value="Assam">Assam</option>
+                        <option value="Bihar">Bihar</option>
+                        <option value="Chandigarh">Chandigarh</option>
+                        <option value="Chhattisgarh">Chhattisgarh</option>
+                        <option value="Dadar and Nagar Haveli">
+                          Dadar and Nagar Haveli
+                        </option>
+                        <option value="Daman and Diu">Daman and Diu</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Lakshadweep">Lakshadweep</option>
+                        <option value="Puducherry">Puducherry</option>
+                        <option value="Goa">Goa</option>
+                        <option value="Gujarat">Gujarat</option>
+                        <option value="Haryana">Haryana</option>
+                        <option value="Himachal Pradesh">Himachal Pradesh</option>
+                        <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                        <option value="Jharkhand">Jharkhand</option>
+                        <option value="Karnataka">Karnataka</option>
+                        <option value="Kerala">Kerala</option>
+                        <option value="Madhya Pradesh">Madhya Pradesh</option>
+                        <option value="Maharashtra">Maharashtra</option>
+                        <option value="Manipur">Manipur</option>
+                        <option value="Meghalaya">Meghalaya</option>
+                        <option value="Mizoram">Mizoram</option>
+                        <option value="Nagaland">Nagaland</option>
+                        <option value="Odisha">Odisha</option>
+                        <option value="unjab">Punjab</option>
+                        <option value="Rajasthan">Rajasthan</option>
+                        <option value="Sikkim">Sikkim</option>
+                        <option value="Tamil Nadu">Tamil Nadu</option>
+                        <option value="Telangana">Telangana</option>
+                        <option value="Tripura">Tripura</option>
+                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                        <option value="Uttarakhand">Uttarakhand</option>
+                        <option value="West Bengal">West Bengal</option>
+                      </select>
+                    </div>
+                    <div class="col-50">
+                      <div class="form-group ml-md-4">
+                        <label for="zip">Pincode</label>
+                        <input class="form-control" type="text" id="zip" name="pick_pincode" placeholder="10001" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+       
+          <h4 class="my-4" style="padding-top:7rem">Dropoff Address</h4>
+          <div class="container">
+            <div class="row">
+              <div class="col-md-9">
+                
+                <div class="form-group">
+                  <label for="adr"><span class="material-icons-two-tone md-light"
+                      style="font-size: 30px; vertical-align: middle">place
+                    </span>
+                    Address</label>
+                  <input class="form-control ml-md-4" type="text" id="adr" name="drop_address"
+                    placeholder="542 W. 15th Street" />
+                </div>
+                <div class="form-group ml-md-4">
+                  <label for="city"> City</label>
+                  <input class="form-control" type="text" id="city" name="drop_city" placeholder="New York" />
+                </div>
+
+                <div class="row">
+                  <div class="col-md-9">
+                    <div class="form-group ml-md-4">
+                      <!-- <label for="state">State</label>
+                      <input class="form-control" type="text" id="state" name="state" placeholder="NY" /> -->
+                      <label for="state">State</label>
+                      <select required id="state" class="form-control" name="drop_state">
+                        <option selected disabled value="">Choose...</option>
+                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                        <option value="Andaman and Nicobar Island">
+                          Andaman and Nicobar Islands
+                        </option>
+                        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                        <option value="Assam">Assam</option>
+                        <option value="Bihar">Bihar</option>
+                        <option value="Chandigarh">Chandigarh</option>
+                        <option value="Chhattisgarh">Chhattisgarh</option>
+                        <option value="Dadar and Nagar Haveli">
+                          Dadar and Nagar Haveli
+                        </option>
+                        <option value="Daman and Diu">Daman and Diu</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Lakshadweep">Lakshadweep</option>
+                        <option value="Puducherry">Puducherry</option>
+                        <option value="Goa">Goa</option>
+                        <option value="Gujarat">Gujarat</option>
+                        <option value="Haryana">Haryana</option>
+                        <option value="Himachal Pradesh">Himachal Pradesh</option>
+                        <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                        <option value="Jharkhand">Jharkhand</option>
+                        <option value="Karnataka">Karnataka</option>
+                        <option value="Kerala">Kerala</option>
+                        <option value="Madhya Pradesh">Madhya Pradesh</option>
+                        <option value="Maharashtra">Maharashtra</option>
+                        <option value="Manipur">Manipur</option>
+                        <option value="Meghalaya">Meghalaya</option>
+                        <option value="Mizoram">Mizoram</option>
+                        <option value="Nagaland">Nagaland</option>
+                        <option value="Odisha">Odisha</option>
+                        <option value="unjab">Punjab</option>
+                        <option value="Rajasthan">Rajasthan</option>
+                        <option value="Sikkim">Sikkim</option>
+                        <option value="Tamil Nadu">Tamil Nadu</option>
+                        <option value="Telangana">Telangana</option>
+                        <option value="Tripura">Tripura</option>
+                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                        <option value="Uttarakhand">Uttarakhand</option>
+                        <option value="West Bengal">West Bengal</option>
+                      </select>
+                    </div>
+                    <div class="col-50">
+                      <div class="form-group ml-md-4">
+                        <label for="zip">Pincode</label>
+                        <input class="form-control" type="text" id="zip" name="drop_pincode" placeholder="10001" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h4 class="my-4" style="padding-top:7rem">Pickup date and time</h4>
+          <label for="birthdaytime">Pickup (date and time):</label>
+          <input type="datetime-local" id="pick_date" name="pick_date"  onchange="cal()">
+
+
+          
+
+          <script type="text/javascript">
+            function GetDays(){
+                    var dropdt = new Date(document.getElementById("drop_date").value);
+                    var pickdt = new Date(document.getElementById("pick_date").value);
+                    return parseInt((dropdt - pickdt) / (24 * 3600 * 1000));
+            }
+    
+            function cal(){
+            if(document.getElementById("drop_date")){
+                document.getElementById("numdays2").value=GetDays();
+            }  
+        }
+    
+        </script>
+          <!-- <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
+                            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker4"/>
+                            <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    $(function () {
+                        $('#datetimepicker4').datetimepicker({
+                            format: 'L'
+                        });
+                    });
+                </script>
+            </div>
+          </div> -->
+          
+          <h4 class="my-4" style="padding-top:7rem">Dropoff date and time</h4>
+          <label for="birthdaytime">Dropoff (date and time):</label>
+          <input type="datetime-local" id="drop_date" name="drop_date"  onchange="cal()">
+
+
+          <div id="numdays">
+            <label class="form">Number of days:</label>
+            <input type="text" class="textbox" id="numdays2" name="numdays"/>
+          </div>
+
+
+
+          <!-- <div class="container">
+            <br />
+            <div class="row">
+              <div class='col-sm-3'>
+                <div class="form-group">
+                  <div id="filterDate2">
+                    
+                    
+                   - <div class="input-group date" data-date-format="dd.mm.yyyy">
+                      <input  type="text" class="form-control" placeholder="dd.mm.yyyy">
+                      <div class="input-group-addon" >
+                        <span class="glyphicon glyphicon-th"></span>
+                      </div>
+                    </div>
+                    
+                  </div>    
+                </div>
+              </div>
+            </div>
+            <script type="text/javascript"> $('.input-group.date').datepicker({format: "dd.mm.yyyy"}); </script>
+          </div>
+                 -->
+
+          <div class="text-center">
+            <button type="submit" style="
+                  background-color: 
+                    rgb(25, 133, 255);
+                  border-radius: 2rem;
+                  border: 1px;
+                  outline: none;
+                  font-weight: 600;
+                  font-size: large;
+                  padding:1rem 2rem;
+                  color:white;
+                  margin-bottom: 5rem;
+                ">
+              Save address
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  
+</body>
+<script>
+  $(function () {
+    $("#datetimepicker1").datetimepicker({
+      format: 'DD/MM/YYYY HH:mm',
+    });
+  });
+</script>
+</html>

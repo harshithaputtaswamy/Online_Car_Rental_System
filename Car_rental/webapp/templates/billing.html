@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<head>
+    <title>Car details</title>
+      <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  </head>
+<body>
+    {% include "header.html"%}
+
+    <div class ='col-sm-6 col-sm-offset-3' style='padding-top:9rem'>
+        <center>
+        <strong><p style="color: red">Billing is done once you return the car.
+        </p></strong>
+        </center>
+
+        <a href="" class="list-group-item"><strong>Vehicle Model: </strong>{{booking.reg_num.name}}</a>
+        <a href="" class="list-group-item"><strong>Name: </strong>{{booking.dl_num.name}}</a>
+        <a href="" class="list-group-item"><strong>Phone Number: </strong>{{booking.dl_num.phno}}</a>
+        <a href="" class="list-group-item"><strong>Pickup Address: </strong>{{booking.pickup_loc.address}}
+            , {{booking.pickup_loc.city}} - {{booking.pickup_loc.pincode}}, {{booking.pickup_loc.state}}</a></a>
+        <a href="" class="list-group-item"><strong>Drop Address: </strong>{{booking.drop_loc.address}}
+            , {{booking.drop_loc.city}} - {{booking.drop_loc.pincode}}, {{booking.drop_loc.state}}</a></a>
+        <a href="" class="list-group-item"><strong>Vehicle Pickup Date: </strong>{{booking.from_date}}
+        <a href="" class="list-group-item"><strong>Vehicle Return Date: </strong>{{booking.ret_date}}</a>
+        <a href="" class="list-group-item"><strong>Booking number: </strong>{{booking.id}}</a>
+        <a href="" class="list-group-item"><strong>Booking amount: </strong>{{booking.amt}}</a><br>
+        
+</div>
+</body>
