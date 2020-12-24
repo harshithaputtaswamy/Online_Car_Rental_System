@@ -17,18 +17,24 @@
         <strong><p style="color: red">Billing is done once you return the car.
         </p></strong>
         </center>
-
-        <a href="" class="list-group-item"><strong>Vehicle Model: </strong>{{booking.reg_num.name}}</a>
-        <a href="" class="list-group-item"><strong>Name: </strong>{{booking.dl_num.name}}</a>
-        <a href="" class="list-group-item"><strong>Phone Number: </strong>{{booking.dl_num.phno}}</a>
-        <a href="" class="list-group-item"><strong>Pickup Address: </strong>{{booking.pickup_loc.address}}
-            , {{booking.pickup_loc.city}} - {{booking.pickup_loc.pincode}}, {{booking.pickup_loc.state}}</a></a>
-        <a href="" class="list-group-item"><strong>Drop Address: </strong>{{booking.drop_loc.address}}
-            , {{booking.drop_loc.city}} - {{booking.drop_loc.pincode}}, {{booking.drop_loc.state}}</a></a>
-        <a href="" class="list-group-item"><strong>Vehicle Pickup Date: </strong>{{booking.from_date}}
-        <a href="" class="list-group-item"><strong>Vehicle Return Date: </strong>{{booking.ret_date}}</a>
-        <a href="" class="list-group-item"><strong>Booking number: </strong>{{booking.id}}</a>
-        <a href="" class="list-group-item"><strong>Booking amount: </strong>{{booking.amt}}</a><br>
+        <a href="" class="list-group-item"><strong>Billing id: </strong>{{billing.id}}</a><br>
+        <a href="" class="list-group-item"><strong>Vehicle Model: </strong>{{billing.booking_id.reg_num.name}}</a>
+        <a href="" class="list-group-item"><strong>Name: </strong>{{billing.booking_id.dl_num.name}}</a>
+        <a href="" class="list-group-item"><strong>Phone Number: </strong>{{billing.booking_id.dl_num.phno}}</a>
+        <a href="" class="list-group-item"><strong>Pickup Address: </strong>{{billing.booking_id.pickup_loc.address}}
+            , {{billing.booking_id.pickup_loc.city}} - {{billing.booking_id.pickup_loc.pincode}}, {{billing.booking_id.pickup_loc.state}}</a>
+        <a href="" class="list-group-item"><strong>Drop Address: </strong>{{billing.booking_id.drop_loc.address}}
+            , {{billing.booking_id.drop_loc.city}} - {{billing.booking_id.drop_loc.pincode}}, {{billing.booking_id.drop_loc.state}}</a>
+        <a href="" class="list-group-item"><strong>Vehicle Pickup Date: </strong>{{billing.booking_id.from_date}}</a>
+        <a href="" class="list-group-item"><strong>Vehicle Return Date: </strong>{{billing.booking_id.ret_date}}</a>
+        <a href="" class="list-group-item"><strong>Booking number: </strong>{{billing.booking_id.id}}</a>
+        <a href="" class="list-group-item"><strong>Booking amount: </strong>{{billing.booking_id.amt}}</a>
+        <a href="" class="list-group-item"><strong>Vehicle Actually Returned On: </strong>{{billing.booking_id.act_ret_date}}</a>
+        <a href="" class="list-group-item"><strong>Late fee: </strong>{{billing.late_fee}}</a>
+        <a href="" class="list-group-item"><strong>Tax fee: </strong>{{billing.tax_amount}}</a>
+        <a href="" class="list-group-item"><strong>Total amount: </strong>{{billing.total_amount}}</a>
+        <br>
+        <br/>
         
 </div>
 </body>

@@ -71,12 +71,12 @@ class booking(models.Model):
 
 
 class billing(models.Model):
-    bill_date =  models.DateTimeField(auto_now_add=True) 	
-    bill_status	= models.IntegerField() #0 - not payed   1 - pay
-    late_fee = models.IntegerField()	
-    tax_amount	= models.IntegerField()	
+    bill_date =  models.DateTimeField(blank=True, null=True) 	
+    bill_status	= models.IntegerField(blank=True, null=True) #0 - not payed   1 - payed
+    late_fee = models.IntegerField(blank=True, null=True)	
+    tax_amount	= models.IntegerField(blank=True, null=True)	
     booking_id = models.ForeignKey('booking', on_delete=models.CASCADE,null=False)		
-    total_amount = models.IntegerField()	         
+    total_amount = models.IntegerField(blank=True, null=True)	         
 
     class Meta:
         db_table ="billing"

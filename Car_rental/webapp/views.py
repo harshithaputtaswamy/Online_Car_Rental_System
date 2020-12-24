@@ -9,7 +9,9 @@ from django.conf import settings
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime, time, timedelta
+import pytz
 
+utc=pytz.UTC
 
 # Create your views here.
 def home(request):
@@ -150,12 +152,49 @@ def booking_details(request):
         return HttpResponseRedirect('/oauth/login/google-oauth2/?next=/booking_details/')       
 
 
-def billing(request):
+def billings(request):
     if request.user.is_authenticated:
         booking_details = booking.objects.get(dl_num=customer.objects.get(b_email = request.user.email))
+        
+        print(booking_details)
+
+        
         if booking_details.status == 1:
-            billing
-        return render(request, 'billing.html')
+            booking_details.act_ret_date = datetime.today()
+            booking_details.save()
+            days = str(utc.localize(booking_details.act_ret_date) - booking_details.ret_date)
+            
+            # days = 3
+            days = int(days.split(' ')[0])
+            print(days)
+            late_fee = int(booking_details.reg_num.category.late_fee)*days
+            tax_amount = (int(booking_details.amt) + late_fee)*.03
+            
+            print(late_fee, tax_amount)
+            # print()
+            
+            billing_details = billing.objects.get(booking_id=booking_details)
+            billing_details.bill_date = utc.localize(datetime.today())
+            billing_details.late_fee = late_fee
+            billing_details.tax_amount = tax_amount
+            billing_details.total_amount = int(booking_details.amt) + late_fee + tax_amount                   
+
+            billing_details.save()
+
+            context = {'billing': billing_details}    
+            return render(request, 'billing.html', context)
+        else:
+            billing_details = billing(     
+                bill_date = utc.localize(datetime.today()),
+                bill_status = 0,
+                late_fee = 0,
+                tax_amount = int(booking_details.amt)*.3,
+                total_amount = int(booking_details.amt) + 0 + 0,    
+                booking_id = booking_details
+                
+            )
+            billing_details.save()
+            return render(request, 'billing.html')   
     else:
-        return HttpResponseRedirect('/oauth/login/google-oauth2/?next=/billing/')       
+        return HttpResponseRedirect('/oauth/login/google-oauth2/?next=/billings/')       
     

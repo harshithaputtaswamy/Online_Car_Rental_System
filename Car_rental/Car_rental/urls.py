@@ -37,5 +37,5 @@ urlpatterns = [
     url(r'^add_address_form/$', add_address_form, name = 'add_address_form'),
     url(r'^add_address/$',add_address, name = 'add_address'),
     url(r'^booking_details/$',booking_details, name = 'booking_details'),
-    url(r'^billing/$', billing, name = 'billing'),
+    url(r'^billings/$', billings, name = 'billings'),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
