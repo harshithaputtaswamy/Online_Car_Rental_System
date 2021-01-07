@@ -10,14 +10,25 @@
   <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<style>
+  .disabled {
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.6;
+}
+</style>
   </head>
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
     {% include "header.html" %}
     <div class="container" style="margin-top: 15px; padding-top:5rem">
-        Cars available
+       
     <div class="row">
         {% for car in cars %}
+        {% if car.availability == 0 %}
+        <a href="{{car.getabsoluteurl}}" style="text-decoration: none" class="disabled">
+        {% else %}
         <a href="{{car.getabsoluteurl}}" style="text-decoration: none">
+        {% endif %}
           <div class="col-sm-6 col-md-3">
             <div class="thumbnail">
                 

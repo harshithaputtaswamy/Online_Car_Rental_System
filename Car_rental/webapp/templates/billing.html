@@ -14,8 +14,9 @@
 
     <div class ='col-sm-6 col-sm-offset-3' style='padding-top:9rem'>
         <center>
-        <strong><p style="color: red">Billing is done once you return the car.
+        <strong><p style="color: red">Bill is generated once you return the car.
         </p></strong>
+        {% for billing in billing %}
         </center>
         <a href="" class="list-group-item"><strong>Billing id: </strong>{{billing.id}}</a><br>
         <a href="" class="list-group-item"><strong>Vehicle Model: </strong>{{billing.booking_id.reg_num.name}}</a>
@@ -33,8 +34,10 @@
         <a href="" class="list-group-item"><strong>Late fee: </strong>{{billing.late_fee}}</a>
         <a href="" class="list-group-item"><strong>Tax fee: </strong>{{billing.tax_amount}}</a>
         <a href="" class="list-group-item"><strong>Total amount: </strong>{{billing.total_amount}}</a>
+        <a href="" class="list-group-item"><strong>Payment status: </strong>{% if billing.bill_status == 0 %} Not Payed {% else %} Payed {% endif %} </a>
         <br>
         <br/>
+        {% endfor %}
         
 </div>
 </body>

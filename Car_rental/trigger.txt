@@ -1,0 +1,11 @@
+
+CREATE PROCEDURE update_avail(reg varchar(50), confirmation int)
+UPDATE car 
+SET availability=IF(confirmation=0,1,0)
+WHERE car.id=reg;
+
+create trigger on_order_placed
+AFTER UPDATE
+ON booking
+FOR EACH ROW
+CALL update_avail(NEW.reg_num_id, NEW.confirm);

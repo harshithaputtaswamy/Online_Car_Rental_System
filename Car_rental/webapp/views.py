@@ -27,7 +27,7 @@ def home(request):
 
 
 def car_list(request):
-    cars = car.objects.filter(availability=1)
+    cars = car.objects.all()
     if request.user.is_authenticated:
         user_email = request.user.email
         query = "select * from customer where b_email='"+user_email+"';"
@@ -80,6 +80,8 @@ def book_car(request):
         query = "select * from booking where dl_num_id='"+request.user.email+"' and reg_num_id="+request.POST['car_id']
         bid = customer.objects.get(b_email=request.user.email)
         cursor = connection.cursor()
+
+        #create booking
         bookings = booking(
             reg_num=car.objects.get(id=request.POST['car_id']),
             dl_num=customer.objects.get(b_email=request.user.email),
@@ -124,20 +126,24 @@ def add_address(request):
         )
         address2.save()
 
-        bookings = booking.objects.get(dl_num=customer.objects.get(b_email = request.user.email))
+        bookings = booking.objects.filter(dl_num=customer.objects.get(b_email = request.user.email))
+        if bookings.exists():
+            bookings = bookings.last()
+        print("booking id ",bookings)
         car = bookings.reg_num
         cost_day = car.category.cost
         from_date = request.POST['pick_date']
         to_date = request.POST['drop_date']
         days = request.POST['numdays']
         tot_cost = int(cost_day)*int(days) 
-        print(tot_cost)
+        print("cost ",tot_cost)
         bookings.pickup_loc = address.objects.filter(address=request.POST['pick_address'])[0]
         bookings.drop_loc=address.objects.filter(address=request.POST['drop_address'])[0]
         bookings.amt = tot_cost
         bookings.from_date = from_date
         bookings.to_date = to_date
         bookings.status = 0
+        bookings.confirm = 1
         bookings.save()
 
         return redirect('/booking_details/')    
@@ -145,8 +151,10 @@ def add_address(request):
 
 def booking_details(request):
     if request.user.is_authenticated:
-        booking_details = booking.objects.get(dl_num=customer.objects.get(b_email = request.user.email))
-        context = {'booking': booking_details}
+        booking_list = list(booking.objects.filter(dl_num=customer.objects.get(b_email = request.user.email),confirm=1))
+        booking_list.reverse()
+        print(booking_list, " bookings")    
+        context = {'booking': booking_list}
         return render(request, 'booking_details.html',context)
     else:
         return HttpResponseRedirect('/oauth/login/google-oauth2/?next=/booking_details/')       
@@ -154,47 +162,56 @@ def booking_details(request):
 
 def billings(request):
     if request.user.is_authenticated:
-        booking_details = booking.objects.get(dl_num=customer.objects.get(b_email = request.user.email))
+        booking_detail = list(booking.objects.filter(dl_num=customer.objects.get(b_email = request.user.email)))
         
-        print(booking_details)
-
-        
-        if booking_details.status == 1:
-            booking_details.act_ret_date = datetime.today()
-            booking_details.save()
-            days = str(utc.localize(booking_details.act_ret_date) - booking_details.ret_date)
-            
-            # days = 3
-            days = int(days.split(' ')[0])
-            print(days)
-            late_fee = int(booking_details.reg_num.category.late_fee)*days
-            tax_amount = (int(booking_details.amt) + late_fee)*.03
-            
-            print(late_fee, tax_amount)
-            # print()
-            
-            billing_details = billing.objects.get(booking_id=booking_details)
-            billing_details.bill_date = utc.localize(datetime.today())
-            billing_details.late_fee = late_fee
-            billing_details.tax_amount = tax_amount
-            billing_details.total_amount = int(booking_details.amt) + late_fee + tax_amount                   
-
-            billing_details.save()
-
-            context = {'billing': billing_details}    
-            return render(request, 'billing.html', context)
-        else:
-            billing_details = billing(     
-                bill_date = utc.localize(datetime.today()),
-                bill_status = 0,
-                late_fee = 0,
-                tax_amount = int(booking_details.amt)*.3,
-                total_amount = int(booking_details.amt) + 0 + 0,    
-                booking_id = booking_details
+        print(booking_detail)
+        billing_list = []
+        for booking_details in booking_detail:
+            print(booking_details.id)
+            if booking_details.status == 1 and len(billing.objects.filter(booking_id=booking_details.id)) != 0:
+                # booking_details.act_ret_date = datetime.today()
+                # booking_details.save()
+                days = str(booking_details.act_ret_date - booking_details.ret_date)
+                print(days)
+                # days = 3
+                days = int(days.split(' ')[0])
+                print(days)
+                late_fee = int(booking_details.reg_num.category.late_fee)*days
+                tax_amount = (int(booking_details.amt) + late_fee)*.03
                 
-            )
-            billing_details.save()
-            return render(request, 'billing.html')   
+                print(late_fee, tax_amount)
+                # print()
+                
+                billing_details = billing.objects.get(booking_id=booking_details.id)
+                billing_details.bill_date = utc.localize(datetime.today())
+                billing_details.late_fee = late_fee
+                billing_details.tax_amount = tax_amount
+                billing_details.total_amount = int(booking_details.amt) + late_fee + tax_amount                   
+                billing_details.bill_status = 1
+                billing_details.save()
+                
+                car_booked = booking.objects.get(id=booking_details.id).reg_num                
+                car_booked.availability = 1
+                car_booked.save()
+                billing_list.append(billing_details)
+                
+            else:
+                if len(billing.objects.filter(booking_id=booking_details.id)) == 0:
+                    billing_details = billing(     
+                        bill_date = utc.localize(datetime.today()),
+                        bill_status = 0,
+                        late_fee = 0,
+                        tax_amount = int(booking_details.amt)*.3,
+                        total_amount = int(booking_details.amt) + 0 + 0,    
+                        booking_id = booking_details
+                        
+                    )
+                    billing_details.save()
+
+            billing_list.reverse()
+            context = {'billing': billing_list}    
+
+        return render(request, 'billing.html', context)
     else:
         return HttpResponseRedirect('/oauth/login/google-oauth2/?next=/billings/')       
     

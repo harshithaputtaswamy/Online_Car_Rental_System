@@ -15,6 +15,7 @@
         <strong><p style="color: red">Your vehicle selection process has been completed successfully. 
             We will contact you to deliver the vehicle. Other rental details are below.
         </p></strong>
+        {% for booking in booking %}
         <p class="list-group-item active">
           <strong><span class="glyphicon glyphicon-tag"></span>Car Details</strong>
         </p>
@@ -28,8 +29,10 @@
         <a href="" class="list-group-item"><strong>Vehicle Pickup Date: </strong>{{booking.from_date}}
         <a href="" class="list-group-item"><strong>Vehicle Return Date: </strong>{{booking.ret_date}}</a>
         <a href="" class="list-group-item"><strong>Booking number: </strong>{{booking.id}}</a>
-        <a href="" class="list-group-item"><strong>Booking amount: </strong>{{booking.amt}}</a><br>
+        <a href="" class="list-group-item"><strong>Booking amount: </strong>{{booking.amt}}</a>
+        <a href="" class="list-group-item"><strong>Car return status: </strong>{% if booking.status == 0 %} Not Returned {% else %} Returned {% endif %}</a><br>
         
+        {% endfor %}
     </div>
 </body>
 

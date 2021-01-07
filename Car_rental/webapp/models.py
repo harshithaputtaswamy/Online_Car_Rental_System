@@ -41,7 +41,7 @@ class car(models.Model):
     reg_number = models.CharField(max_length=15)        
     name = models.CharField(max_length=20)
     mileage = models.CharField(max_length=10)
-    availability = models.IntegerField()
+    availability = models.IntegerField() # 0 not available      1 available
     category = models.ForeignKey('category',on_delete=models.SET_NULL,null=True)
     photo = models.ImageField(blank=True)
 
@@ -57,16 +57,17 @@ class booking(models.Model):
     
     from_date = models.DateTimeField(default=datetime.today)
     ret_date = models.DateTimeField(default=datetime.today)
-    amt = models.IntegerField(null=True)
+    amt = models.IntegerField(default=0)
     status	= models.IntegerField(null=True)    #0 - not returned   1 - returned
     pickup_loc = models.ForeignKey('address', on_delete=models.SET_NULL,null=True,related_name='pickup')
     drop_loc = models.ForeignKey('address', on_delete=models.SET_NULL,null=True, related_name='drop')	
     reg_num = models.ForeignKey('car', on_delete=models.CASCADE,null=False)	
     dl_num = models.ForeignKey('customer', on_delete=models.CASCADE,null=False)	
-    act_ret_date =  models.DateTimeField(blank=True, null=True)    
+    act_ret_date =  models.DateTimeField(blank=True, null=True)  
+    confirm = models.IntegerField(default=0)  # 0 - not confirmed   1 - confirmed
 
     class Meta:
-        unique_together = ("reg_num", "dl_num")
+        unique_together = ("reg_num", "dl_num","from_date")
         db_table ="booking"
 
 
