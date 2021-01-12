@@ -1,30 +1,17 @@
+// stored procedure for updating availability of a car //
 
 CREATE PROCEDURE update_avail(reg varchar(50), confirmation int)
 UPDATE car 
 SET availability=IF(confirmation=0,1,0)
 WHERE car.id=reg;
 
+// trigger //
+
 create trigger on_order_placed
-AFTER UPDATE
+AFTER UPDATE 
 ON booking
 FOR EACH ROW
 CALL update_avail(NEW.reg_num_id, NEW.confirm);
-
-
-
-
-
-
-
-
-
-call calculate_late_fee_and_tax("2017-06-25 09:34:21", "2017-06-15 15:25:35",1,7000,@latefee,@tax);/
-
-
-
-
-
-
 
 
 
@@ -61,6 +48,7 @@ END;
 /
 
 
+// trigger //
 
 DELIMITER /
 DROP TRIGGER GENERATE_BILLING;
@@ -86,7 +74,7 @@ IF NEW.act_ret_date IS NOT NULL AND NEW.status=1 THEN
 
 SET totalAmount= NEW.amt + @totalLateFee + @totalTax;
  INSERT INTO billing (id,bill_date,bill_status,total_amount,tax_amount,booking_id_id,late_fee)
- VALUES (newBillId,curdate(),1,totalAmount,@totalTax,NEW.id,@totalLateFee);
+ VALUES (newBillId,NEW.act_ret_date,1,totalAmount,@totalTax,NEW.id,@totalLateFee);
 END IF;
 END;
 /
@@ -94,13 +82,11 @@ END;
 
 
 
-
-
-
-
-
-
-
+// Month By Month Revenue //
+CREATE PROCEDURE calculate_revenue_per_month()
+select year(bill_date),month(bill_date),count(id) AS num_bookings,sum(total_amount) 
+from billing 
+group by year(bill_date), month(bill_date);
 
 
 

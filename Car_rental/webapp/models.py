@@ -8,15 +8,17 @@ from datetime import datetime
 class customer(models.Model):
     b_email = models.CharField(max_length=100, primary_key=True)
     name = models.CharField(max_length=100)
-    phno = models.CharField(max_length=10, null=True)
+    phno = models.CharField(max_length=50, null=True)
     dl_num = models.CharField(max_length=13, null=True)
 
     class Meta:
         db_table = "customer"
 
+    def __str__(self):
+        return self.b_email 
 
 class address(models.Model):
-    bid = models.ForeignKey('customer', on_delete=models.CASCADE, null=False)
+    bid = models.ForeignKey('customer', on_delete=models.CASCADE)
     address = models.TextField()
     city = models.CharField(max_length=30)
     state = models.CharField(max_length=30)
@@ -24,6 +26,7 @@ class address(models.Model):
 
     class Meta:
         db_table = "address"        
+
 
 
 class category(models.Model):
@@ -35,6 +38,9 @@ class category(models.Model):
 
     class Meta:
         db_table = "Category"  
+
+    def __str__(self):
+        return self.name    
 
 
 class car(models.Model):
@@ -51,6 +57,8 @@ class car(models.Model):
     def getabsoluteurl(self):
         return "/car_detail/%i/" % self.id
     
+    # def __str__(self):
+    #     return self.name
 
 
 class booking(models.Model):
@@ -61,14 +69,17 @@ class booking(models.Model):
     status	= models.IntegerField(null=True)    #0 - not returned   1 - returned
     pickup_loc = models.ForeignKey('address', on_delete=models.SET_NULL,null=True,related_name='pickup')
     drop_loc = models.ForeignKey('address', on_delete=models.SET_NULL,null=True, related_name='drop')	
-    reg_num = models.ForeignKey('car', on_delete=models.CASCADE,null=False)	
-    dl_num = models.ForeignKey('customer', on_delete=models.CASCADE,null=False)	
+    reg_num = models.ForeignKey('car', on_delete=models.SET_NULL,null=True)	
+    dl_num = models.ForeignKey('customer', on_delete=models.CASCADE)	
     act_ret_date =  models.DateTimeField(blank=True, null=True)  
     confirm = models.IntegerField(default=0)  # 0 - not confirmed   1 - confirmed
 
     class Meta:
         unique_together = ("reg_num", "dl_num","from_date")
         db_table ="booking"
+
+    def __str__(self):
+        return self.dl_num.b_email + ' , ' + self.reg_num.name
 
 
 class billing(models.Model):
@@ -81,3 +92,6 @@ class billing(models.Model):
 
     class Meta:
         db_table ="billing"
+
+    def __str__(self):
+        return self.booking_id.dl_num.b_email    

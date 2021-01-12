@@ -89,7 +89,7 @@ integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="ano
             style="font-size: 30px; vertical-align: middle">phone_in_talk
           </span>
           Phno</label>
-        <input class="form-control ml-md-4" type="number" id="phno" name="phone" placeholder="1111111111" />
+        <input class="form-control ml-md-4" type="text" id="phno" name="phone" placeholder="1111111111" />
       </div>
       <div class="form-group">
         <label for="dl_num"><span class="material-icons-two-tone md-light"
@@ -283,28 +283,6 @@ integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="ano
         }
     
         </script>
-          <!-- <div class="container">
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
-                            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker4"/>
-                            <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
-                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <script type="text/javascript">
-                    $(function () {
-                        $('#datetimepicker4').datetimepicker({
-                            format: 'L'
-                        });
-                    });
-                </script>
-            </div>
-          </div> -->
-          
           <h4 class="my-4" style="padding-top:7rem">Dropoff date and time</h4>
           <label for="birthdaytime">Dropoff (date and time):</label>
           <input type="datetime-local" id="drop_date" name="drop_date"  onchange="cal()">
@@ -314,32 +292,6 @@ integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="ano
             <label class="form">Number of days:</label>
             <input type="text" class="textbox" id="numdays2" name="numdays"/>
           </div>
-
-
-
-          <!-- <div class="container">
-            <br />
-            <div class="row">
-              <div class='col-sm-3'>
-                <div class="form-group">
-                  <div id="filterDate2">
-                    
-                    
-                   - <div class="input-group date" data-date-format="dd.mm.yyyy">
-                      <input  type="text" class="form-control" placeholder="dd.mm.yyyy">
-                      <div class="input-group-addon" >
-                        <span class="glyphicon glyphicon-th"></span>
-                      </div>
-                    </div>
-                    
-                  </div>    
-                </div>
-              </div>
-            </div>
-            <script type="text/javascript"> $('.input-group.date').datepicker({format: "dd.mm.yyyy"}); </script>
-          </div>
-                 -->
-
           <div class="text-center">
             <button type="submit" style="
                   background-color: 
@@ -359,8 +311,7 @@ integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="ano
         </div>
       </div>
     </form>
-  </div>
-  
+  </div>  
 </body>
 <script>
   $(function () {

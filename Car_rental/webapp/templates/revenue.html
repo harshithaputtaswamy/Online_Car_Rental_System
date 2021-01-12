@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Revenue page</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link
+        rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        />
+        <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+        <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+  
+    </head>
+    
+    <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+        <h3 class="text-center mt-5">Revenue Report Year 2021</h3>
+        
+        <table class="table table-striped mt-5">
+            <thead>
+                <tr class="text-center">        
+                    <th scope="col" class="w-25">Year</th>            
+                    <th scope="col" class="w-25">Month</th>
+                    <th scope="col" class="w-25">Number of Bookings</th>
+                    <th scope="col" class="w-25">Total Revenue</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in revenueDetails %}
+                <tr class="text-center">
+                    <td>{{r.0}}</td>
+                    <td>{{r.1}}</td>
+                    <td>{{r.2}}</td>
+                    <td>{{r.3}}</td>
+                </tr>
+              {% endfor %}
+                
+            </tbody>
+            
+        </table>  
+        <table class="table table-striped mt-5">
+            <tr class="text-center">
+                <td class="font-weight-bold" style="font-size:20px">Total</td>
+                <td class="font-weight-bold" style="font-size:20px">{{total}}</td>
+            </tr>
+        </table>
+        
+    </body>    
+</html>

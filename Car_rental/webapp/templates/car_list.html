@@ -22,30 +22,29 @@
     {% include "header.html" %}
     <div class="container" style="margin-top: 15px; padding-top:5rem">
        
-    <div class="row">
+      <div class="row h-100">
         {% for car in cars %}
         {% if car.availability == 0 %}
         <a href="{{car.getabsoluteurl}}" style="text-decoration: none" class="disabled">
         {% else %}
         <a href="{{car.getabsoluteurl}}" style="text-decoration: none">
         {% endif %}
-          <div class="col-sm-6 col-md-3">
-            <div class="thumbnail">
-                
+          <div class="col-sm-6 col-md-3 ">
+            <div class=" h-100">
+              <div class="embed-responsive embed-responsive-4by3">  
                 <img src="{{car.photo.url}}" class="img-responsive"/>
-               
+              </div> 
               <div class="caption">
                 <strong>{{ car.name }}</strong>
                 <p> Mileage: {{ car.mileage }}<br>
-                    <!-- Koltuk Sayısı: {{ car.num_of_seats }}<br>
-                    Günlük Ücret: {{ car.cost_par_day }} TL<br> -->
                 </p>
                   
               </div>
             </div>
           </div>    
         </a>
-            {% endfor %}
-        </div>
+          {% endfor %}
+      </div>
     </div>
 </body>    
+</html>

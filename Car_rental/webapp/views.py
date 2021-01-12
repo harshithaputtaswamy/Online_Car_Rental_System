@@ -10,6 +10,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime, time, timedelta
 import pytz
+import calendar
 
 utc=pytz.UTC
 
@@ -85,6 +86,7 @@ def book_car(request):
         bookings = booking(
             reg_num=car.objects.get(id=request.POST['car_id']),
             dl_num=customer.objects.get(b_email=request.user.email),
+            status=0
             )
 
         bookings.save()
@@ -102,12 +104,12 @@ def add_address(request):
     if request.user.is_authenticated:
         user_email = request.user.email
         # print(request.POST)
-        user = customer(
-            name = request.POST['name'],
-            phno = request.POST['phone'],
-            dl_num = request.POST['dl_num'],
-        )
+        user = customer.objects.get(b_email=user_email)
+        user.name = request.POST['name']
+        user.phno = request.POST['phone']
+        user.dl_num = request.POST['dl_num']
         user.save()
+
         address1 = address(
             bid=customer.objects.get(b_email=user_email),
             address=request.POST['pick_address'],
@@ -126,7 +128,7 @@ def add_address(request):
         )
         address2.save()
 
-        bookings = booking.objects.filter(dl_num=customer.objects.get(b_email = request.user.email))
+        bookings = booking.objects.filter(dl_num=customer.objects.get(b_email = request.user.email),status = 0)
         if bookings.exists():
             bookings = bookings.last()
         print("booking id ",bookings)
@@ -141,6 +143,7 @@ def add_address(request):
         print("cost ",tot_cost)
         bookings.pickup_loc = address.objects.filter(address=request.POST['pick_address'])[0]
         bookings.drop_loc=address.objects.filter(address=request.POST['drop_address'])[0]
+        bookings.dl_num = customer.objects.get(b_email = request.user.email)
         bookings.amt = tot_cost
         bookings.from_date = from_date
         bookings.ret_date = to_date
@@ -181,3 +184,27 @@ def billings(request):
     else:
         return HttpResponseRedirect('/oauth/login/google-oauth2/?next=/billings/')       
     
+
+
+def revenue(request):
+    cursor = connection.cursor()
+    revenueDetails = []
+    total_year = 0
+    with connection.cursor() as cursor:
+        cursor.execute("BEGIN")
+        cursor.callproc('calculate_revenue_per_month')
+        for result in cursor.stored_results():
+            revenue = result.fetchall()
+    for i in revenue:
+        revenueDetails.append([i[0],calendar.month_name[i[1]],i[2],i[3]])   
+        if(i[0] == 2021):
+            total_year += i[3]
+    print(revenueDetails)     
+
+    with connection.cursor() as cursor:
+        cursor.execute("BEGIN")
+        cursor.callproc('calculate_revenue_per_year')
+        for result in cursor.stored_results():
+            revenue_year = result.fetchall()
+        print(revenue_year)    
+    return render(request, 'revenue.html',{'revenueDetails': revenueDetails,'total':total_year})

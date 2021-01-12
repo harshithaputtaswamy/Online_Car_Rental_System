@@ -10,30 +10,30 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   </head>
 <body>
-    {% include "header.html"%}
-    <div class ='col-sm-6 col-sm-offset-3' style='padding-top:9rem'>
-        <strong><p style="color: red">Your vehicle selection process has been completed successfully. 
-            We will contact you to deliver the vehicle. Other rental details are below.
-        </p></strong>
-        {% for booking in booking %}
-        <p class="list-group-item active">
-          <strong><span class="glyphicon glyphicon-tag"></span>Car Details</strong>
-        </p>
-        <a href="" class="list-group-item"><strong>Vehicle Model: </strong>{{booking.reg_num.name}}</a>
-        <a href="" class="list-group-item"><strong>Name: </strong>{{booking.dl_num.name}}</a>
-        <a href="" class="list-group-item"><strong>Phone Number: </strong>{{booking.dl_num.phno}}</a>
-        <a href="" class="list-group-item"><strong>Pickup Address: </strong>{{booking.pickup_loc.address}}
-            , {{booking.pickup_loc.city}} - {{booking.pickup_loc.pincode}}, {{booking.pickup_loc.state}}</a></a>
-        <a href="" class="list-group-item"><strong>Drop Address: </strong>{{booking.drop_loc.address}}
-            , {{booking.drop_loc.city}} - {{booking.drop_loc.pincode}}, {{booking.drop_loc.state}}</a></a>
-        <a href="" class="list-group-item"><strong>Vehicle Pickup Date: </strong>{{booking.from_date}}
-        <a href="" class="list-group-item"><strong>Vehicle Return Date: </strong>{{booking.ret_date}}</a>
-        <a href="" class="list-group-item"><strong>Booking number: </strong>{{booking.id}}</a>
-        <a href="" class="list-group-item"><strong>Booking amount: </strong>{{booking.amt}}</a>
-        <a href="" class="list-group-item"><strong>Car return status: </strong>{% if booking.status == 0 %} Not Returned {% else %} Returned {% endif %}</a><br>
-        
-        {% endfor %}
-    </div>
+  {% include "header.html"%}
+  <div class ='col-sm-6 col-sm-offset-3' style='padding-top:9rem'>
+      <strong><p style="color: red">Your vehicle selection process has been completed successfully. 
+          We will contact you to deliver the vehicle. Other rental details are below.
+      </p></strong>
+      {% for booking in booking %}
+      <p class="list-group-item active">
+        <strong><span class="glyphicon glyphicon-tag"></span>Car Details</strong>
+      </p>
+      <a href="" class="list-group-item"><strong>Vehicle Model: </strong>{{booking.reg_num.name}}</a>
+      <a href="" class="list-group-item"><strong>Name: </strong>{{booking.dl_num.name}}</a>
+      <a href="" class="list-group-item"><strong>Phone Number: </strong>{{booking.dl_num.phno}}</a>
+      <a href="" class="list-group-item"><strong>Pickup Address: </strong>{{booking.pickup_loc.address}}
+          , {{booking.pickup_loc.city}} - {{booking.pickup_loc.pincode}}, {{booking.pickup_loc.state}}</a></a>
+      <a href="" class="list-group-item"><strong>Drop Address: </strong>{{booking.drop_loc.address}}
+          , {{booking.drop_loc.city}} - {{booking.drop_loc.pincode}}, {{booking.drop_loc.state}}</a></a>
+      <a href="" class="list-group-item"><strong>Vehicle Pickup Date: </strong>{{booking.from_date}}
+      <a href="" class="list-group-item"><strong>Vehicle Return Date: </strong>{{booking.ret_date}}</a>
+      <a href="" class="list-group-item"><strong>Booking number: </strong>{{booking.id}}</a>
+      <a href="" class="list-group-item"><strong>Booking amount: </strong>{{booking.amt}}</a>
+      <a href="" class="list-group-item"><strong>Car return status: </strong>{% if booking.status == 0 %} Not Returned {% else %} Returned {% endif %}</a><br>
+      
+      {% endfor %}
+  </div>
 </body>
 
 

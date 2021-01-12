@@ -23,6 +23,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
 from django.contrib.auth import logout
+admin.site.site_url = 'http://127.0.0.1:8000/revenue/'
 admin.autodiscover()
 
 urlpatterns = [
@@ -38,4 +39,5 @@ urlpatterns = [
     url(r'^add_address/$',add_address, name = 'add_address'),
     url(r'^booking_details/$',booking_details, name = 'booking_details'),
     url(r'^billings/$', billings, name = 'billings'),
+    url(r'^revenue/$', revenue, name = 'revenue'),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

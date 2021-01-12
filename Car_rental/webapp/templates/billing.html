@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<head>
+  <head>
     <title>Car details</title>
       <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,35 +9,34 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   </head>
-<body>
+  <body>
     {% include "header.html"%}
-
     <div class ='col-sm-6 col-sm-offset-3' style='padding-top:9rem'>
-        <center>
-        <strong><p style="color: red">Bill is generated once you return the car.
-        </p></strong>
-        {% for billing in billing %}
-        </center>
-        <a href="" class="list-group-item"><strong>Billing id: </strong>{{billing.id}}</a><br>
-        <a href="" class="list-group-item"><strong>Vehicle Model: </strong>{{billing.booking_id.reg_num.name}}</a>
-        <a href="" class="list-group-item"><strong>Name: </strong>{{billing.booking_id.dl_num.name}}</a>
-        <a href="" class="list-group-item"><strong>Phone Number: </strong>{{billing.booking_id.dl_num.phno}}</a>
-        <a href="" class="list-group-item"><strong>Pickup Address: </strong>{{billing.booking_id.pickup_loc.address}}
-            , {{billing.booking_id.pickup_loc.city}} - {{billing.booking_id.pickup_loc.pincode}}, {{billing.booking_id.pickup_loc.state}}</a>
-        <a href="" class="list-group-item"><strong>Drop Address: </strong>{{billing.booking_id.drop_loc.address}}
-            , {{billing.booking_id.drop_loc.city}} - {{billing.booking_id.drop_loc.pincode}}, {{billing.booking_id.drop_loc.state}}</a>
-        <a href="" class="list-group-item"><strong>Vehicle Pickup Date: </strong>{{billing.booking_id.from_date}}</a>
-        <a href="" class="list-group-item"><strong>Vehicle Return Date: </strong>{{billing.booking_id.ret_date}}</a>
-        <a href="" class="list-group-item"><strong>Booking number: </strong>{{billing.booking_id.id}}</a>
-        <a href="" class="list-group-item"><strong>Booking amount: </strong>{{billing.booking_id.amt}}</a>
-        <a href="" class="list-group-item"><strong>Vehicle Actually Returned On: </strong>{{billing.booking_id.act_ret_date}}</a>
-        <a href="" class="list-group-item"><strong>Late fee: </strong>{{billing.late_fee}}</a>
-        <a href="" class="list-group-item"><strong>Tax fee: </strong>{{billing.tax_amount}}</a>
-        <a href="" class="list-group-item"><strong>Total amount: </strong>{{billing.total_amount}}</a>
-        <a href="" class="list-group-item"><strong>Payment status: </strong>{% if billing.bill_status == 0 %} Not Payed {% else %} Payed {% endif %} </a>
-        <br>
-        <br/>
-        {% endfor %}
-        
-</div>
-</body>
+      <center>
+      <strong><p style="color: red">Bill is generated once you return the car.
+      </p></strong>
+      {% for billing in billing %}
+      </center>
+      <a href="" class="list-group-item"><strong>Billing id: </strong>{{billing.id}}</a><br>
+      <a href="" class="list-group-item"><strong>Vehicle Model: </strong>{{billing.booking_id.reg_num.name}}</a>
+      <a href="" class="list-group-item"><strong>Name: </strong>{{billing.booking_id.dl_num.name}}</a>
+      <a href="" class="list-group-item"><strong>Phone Number: </strong>{{billing.booking_id.dl_num.phno}}</a>
+      <a href="" class="list-group-item"><strong>Pickup Address: </strong>{{billing.booking_id.pickup_loc.address}}
+          , {{billing.booking_id.pickup_loc.city}} - {{billing.booking_id.pickup_loc.pincode}}, {{billing.booking_id.pickup_loc.state}}</a>
+      <a href="" class="list-group-item"><strong>Drop Address: </strong>{{billing.booking_id.drop_loc.address}}
+          , {{billing.booking_id.drop_loc.city}} - {{billing.booking_id.drop_loc.pincode}}, {{billing.booking_id.drop_loc.state}}</a>
+      <a href="" class="list-group-item"><strong>Vehicle Pickup Date: </strong>{{billing.booking_id.from_date}}</a>
+      <a href="" class="list-group-item"><strong>Vehicle Return Date: </strong>{{billing.booking_id.ret_date}}</a>
+      <a href="" class="list-group-item"><strong>Booking number: </strong>{{billing.booking_id.id}}</a>
+      <a href="" class="list-group-item"><strong>Booking amount: </strong>{{billing.booking_id.amt}}</a>
+      <a href="" class="list-group-item"><strong>Vehicle Actually Returned On: </strong>{{billing.booking_id.act_ret_date}}</a>
+      <a href="" class="list-group-item"><strong>Late fee: </strong>{{billing.late_fee}}</a>
+      <a href="" class="list-group-item"><strong>Tax fee: </strong>{{billing.tax_amount}}</a>
+      <a href="" class="list-group-item"><strong>Total amount: </strong>{{billing.total_amount}}</a>
+      <a href="" class="list-group-item"><strong>Payment status: </strong>{% if billing.bill_status == 0 %} Not Payed {% else %} Payed {% endif %} </a>
+      <br>
+      <br/>
+      {% endfor %}        
+    </div>
+  </body>
+</html>
