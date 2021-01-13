@@ -40,4 +40,5 @@ urlpatterns = [
     url(r'^booking_details/$',booking_details, name = 'booking_details'),
     url(r'^billings/$', billings, name = 'billings'),
     url(r'^revenue/$', revenue, name = 'revenue'),
+    url(r'^revenue_report/$', revenue_report, name = 'revenue_report'),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

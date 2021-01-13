@@ -83,10 +83,22 @@ END;
 
 
 // Month By Month Revenue //
-CREATE PROCEDURE calculate_revenue_per_month()
+CREATE PROCEDURE calculate_revenue_per_month(IN year INT)
 select year(bill_date),month(bill_date),count(id) AS num_bookings,sum(total_amount) 
 from billing 
-group by year(bill_date), month(bill_date);
+WHERE year(bill_date)=year
+group by year(bill_date), month(bill_date)
+Order by month(bill_date);
+
+
+
+
+// Year Revenue //
+CREATE PROCEDURE calculate_revenue_per_year(IN year INT)
+select year(bill_date),count(id) AS num_bookings,sum(total_amount) 
+from billing 
+WHERE year(bill_date)=year
+group by year(bill_date);
 
 
 

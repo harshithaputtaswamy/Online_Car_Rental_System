@@ -103,7 +103,6 @@ def add_address_form(request):
 def add_address(request):
     if request.user.is_authenticated:
         user_email = request.user.email
-        # print(request.POST)
         user = customer.objects.get(b_email=user_email)
         user.name = request.POST['name']
         user.phno = request.POST['phone']
@@ -187,24 +186,25 @@ def billings(request):
 
 
 def revenue(request):
+    return render(request, 'revenue.html')
+
+
+def revenue_report(request):
     cursor = connection.cursor()
     revenueDetails = []
     total_year = 0
     with connection.cursor() as cursor:
         cursor.execute("BEGIN")
-        cursor.callproc('calculate_revenue_per_month')
+        cursor.callproc('calculate_revenue_per_month',[request.POST['year']])
         for result in cursor.stored_results():
             revenue = result.fetchall()
     for i in revenue:
         revenueDetails.append([i[0],calendar.month_name[i[1]],i[2],i[3]])   
-        if(i[0] == 2021):
-            total_year += i[3]
     print(revenueDetails)     
-
     with connection.cursor() as cursor:
         cursor.execute("BEGIN")
-        cursor.callproc('calculate_revenue_per_year')
+        cursor.callproc('calculate_revenue_per_year',[request.POST['year']])
         for result in cursor.stored_results():
-            revenue_year = result.fetchall()
-        print(revenue_year)    
+            total_year = result.fetchall()[0][2]
+        print(total_year)    
     return render(request, 'revenue.html',{'revenueDetails': revenueDetails,'total':total_year})
