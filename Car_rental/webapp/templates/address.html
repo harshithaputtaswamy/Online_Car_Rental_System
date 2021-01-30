@@ -35,28 +35,27 @@ integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="ano
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.1/js/bootstrap-datepicker.min.js"></script>
 
     <script type="text/javascript">
-    function place_order() {
-      alert("order successfully placed ");
-    }
-    function validate() {
-      var z = document.forms["myForm"]["address"].value;
-      var a = document.forms["myForm"]["city"].value;
-      var b = document.forms["myForm"]["state"].value;
-      var c = document.forms["myForm"]["pincode"].value;
-      if (z == "" || a == "" || b == "" || c == "") {
+    
+    function fvalidate() {
+      var z = document.forms["myForm"]["dl_num"].value;
+      var a = document.forms["myForm"]["phno"].value;
+      if (z == "" || a == "") {
         alert("Fill all the details");
         return false;
       } else {
-          if (isNaN(c) || c.length != 6) {
-            alert("Enter pincode properly");
+          if (z.length != 16) {
+            alert("Enter DL number properly");
             return false;
-          } else {
+          }else if (isNaN(a) || a.length != 10) {
+            alert("Enter phone number properly");
+            return false;
+          }else {
             alert("Addedd address");
             return true;
           }
         }
       }
-    }
+    
   </script>
   <style>
     h4 {
@@ -64,7 +63,7 @@ integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="ano
       font-weight: 700 !important;
     }
     .dropdown-menu{
-      width:50rem;!important
+      width:50rem!important;
     }
   </style>
 </head>
@@ -74,7 +73,7 @@ integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="ano
   <div class="container" style="padding-top:10rem">
 
     
-    <form name="myForm" action="/add_address/" method="post" onsubmit="return validate()">
+    <form name="myForm" action="/add_address/" method="post" onsubmit="return fvalidate()">
       {% csrf_token %}
       <div class="form-group">
         <label for="fname"><span class="material-icons-two-tone md-light"
@@ -83,13 +82,14 @@ integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="ano
           Full Name</label>
         <input class="form-control ml-md-4" type="text" id="fname" name="name"
           placeholder="John M. Doe" />
+          <div class="invalid-feedback">Please enter your full name.</div>
       </div>
       <div class="form-group">
         <label for="email"><span class="material-icons-two-tone md-light"
             style="font-size: 30px; vertical-align: middle">phone_in_talk
           </span>
           Phno</label>
-        <input class="form-control ml-md-4" type="text" id="phno" name="phone" placeholder="1111111111" />
+        <input class="form-control ml-md-4" type="number" id="phno" name="phone" placeholder="1111111111" />
       </div>
       <div class="form-group">
         <label for="dl_num"><span class="material-icons-two-tone md-light"
@@ -114,10 +114,12 @@ integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="ano
                     Address</label>
                   <input class="form-control ml-md-4" type="text" id="adr" name="pick_address"
                     placeholder="542 W. 15th Street" />
+                    <div class="invalid-feedback">Please enter your address.</div>
                 </div>
                 <div class="form-group ml-md-4">
                   <label for="city"> City</label>
                   <input class="form-control" type="text" id="city" name="pick_city" placeholder="New York" />
+                  <div class="invalid-feedback">Please enter your city.</div>
                 </div>
 
                 <div class="row">
@@ -169,11 +171,15 @@ integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="ano
                         <option value="Uttarakhand">Uttarakhand</option>
                         <option value="West Bengal">West Bengal</option>
                       </select>
+                      <div class="invalid-feedback">Please provide a valid state.</div>
                     </div>
                     <div class="col-50">
                       <div class="form-group ml-md-4">
                         <label for="zip">Pincode</label>
-                        <input class="form-control" type="text" id="zip" name="pick_pincode" placeholder="10001" />
+                        <input class="form-control" type="text" id="zip" name="pick_pincode" placeholder="560000" />
+                        <div class="invalid-feedback">
+                          Please provide a valid PIN code.
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -194,6 +200,7 @@ integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="ano
                     Address</label>
                   <input class="form-control ml-md-4" type="text" id="adr" name="drop_address"
                     placeholder="542 W. 15th Street" />
+                    <div class="invalid-feedback">Please enter your address.</div>
                 </div>
                 <div class="form-group ml-md-4">
                   <label for="city"> City</label>
@@ -249,11 +256,15 @@ integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="ano
                         <option value="Uttarakhand">Uttarakhand</option>
                         <option value="West Bengal">West Bengal</option>
                       </select>
+                      <div class="invalid-feedback">Please provide a valid state.</div>
                     </div>
                     <div class="col-50">
                       <div class="form-group ml-md-4">
                         <label for="zip">Pincode</label>
-                        <input class="form-control" type="text" id="zip" name="drop_pincode" placeholder="10001" />
+                        <input class="form-control" type="text" id="zip" name="drop_pincode" placeholder="560000" />
+                        <div class="invalid-feedback">
+                          Please provide a valid PIN code.
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -319,5 +330,38 @@ integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="ano
       format: 'DD/MM/YYYY HH:mm',
     });
   });
+</script>
+<script>
+  // Example starter JavaScript for disabling form submissions if there are invalid fields
+  (function () {
+    "use strict";
+    window.addEventListener(
+      "load",
+      function () {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName(
+          "needs-validation"
+        );
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function (
+          form
+        ) {
+          form.addEventListener(
+            "submit",
+            function (event) {
+              if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                $(form).find(".form-control:invalid").focus();
+              }
+              form.classList.add("was-validated");
+            },
+            false
+          );
+        });
+      },
+      false
+    );
+  })();
 </script>
 </html>

@@ -9,7 +9,7 @@ class customer(models.Model):
     b_email = models.CharField(max_length=100, primary_key=True)
     name = models.CharField(max_length=100)
     phno = models.CharField(max_length=50, null=True)
-    dl_num = models.CharField(max_length=13, null=True)
+    dl_num = models.CharField(max_length=16, null=True)
 
     class Meta:
         db_table = "customer"
