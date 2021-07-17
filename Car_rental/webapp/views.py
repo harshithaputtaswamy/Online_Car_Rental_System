@@ -204,7 +204,10 @@ def revenue_report(request):
     with connection.cursor() as cursor:
         cursor.execute("BEGIN")
         cursor.callproc('calculate_revenue_per_year',[request.POST['year']])
-        for result in cursor.stored_results():
-            total_year = result.fetchall()[0][2]
+        total_year = 0
+        print(list(cursor.stored_results()))
+        if len(revenueDetails) > 0:
+            for result in cursor.stored_results():
+                total_year = result.fetchall()[0][2]
         print(total_year)    
     return render(request, 'revenue.html',{'revenueDetails': revenueDetails,'total':total_year})

@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html>
 <head>
     <title>Car details</title>
       <meta charset="utf-8">
@@ -11,6 +12,7 @@
   </head>
 <body>
   {% include "header.html"%}
+  <div class = "row">
   <div class ='col-sm-6 col-sm-offset-3' style='padding-top:9rem'>
       <strong><p style="color: red">Your vehicle selection process has been completed successfully. 
           We will contact you to deliver the vehicle. Other rental details are below.
@@ -34,6 +36,9 @@
       
       {% endfor %}
   </div>
-</body>
+  </div>
+{%include "footer.html"%}
 
+</body>
+</html>
 

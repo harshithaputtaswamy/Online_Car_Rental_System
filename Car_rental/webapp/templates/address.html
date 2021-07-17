@@ -39,7 +39,9 @@ integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="ano
     function fvalidate() {
       var z = document.forms["myForm"]["dl_num"].value;
       var a = document.forms["myForm"]["phno"].value;
-      if (z == "" || a == "") {
+      var c = document.forms["myForm"]["drop_date"].value;
+      var b = document.forms["myForm"]["pick_date"].value;
+      if (z == "" || a == "" || b == "" || c == "") {
         alert("Fill all the details");
         return false;
       } else {
@@ -316,13 +318,15 @@ integrity="sha256-VBLiveTKyUZMEzJd6z2mhfxIqz3ZATCuVMawPZGzIfA=" crossorigin="ano
                   color:white;
                   margin-bottom: 5rem;
                 ">
-              Save address
+              Confirm Booking
             </button>
           </div>
         </div>
       </div>
     </form>
   </div>  
+{%include "footer.html"%}
+
 </body>
 <script>
   $(function () {

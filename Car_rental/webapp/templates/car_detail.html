@@ -12,6 +12,7 @@
 </head>
 <body>
   {% include "header.html" %}
+  <div class ="row">
   <div class ='col-sm-6 col-sm-offset-3 mt-5 pt-5' style="padding-top:10rem">
       <div class="list-group-item active">
         <strong><span class="glyphicon glyphicon-film"></span> Vehicle Features</strong>
@@ -25,7 +26,7 @@
 
       <br/>
       <br/>
-      <form method="post" action="/book_car/">
+      <form method="post" action="/book_car/" class="pb-5">
         <div class="  text-xl-center">
           <h4><b>Select Category</b> </h4>
 
@@ -51,7 +52,7 @@
           </div>
         </div>
       
-        <div class="col-sm-12 col-md-9 col-xl-12 text-right my-5 text-xl-center">
+        <div class="col-sm-12 col-md-9 col-xl-12 text-right my-5 text-xl-center" style="padding-bottom: 5rem;">
           <button class="btn btn-lg btn-block text-uppercase col-8 col-xl-12" type="submit"
           style="background-image: linear-gradient(
                   rgb(250, 133, 0),
@@ -62,4 +63,8 @@
         </div>
       </form>      
     </div>
+    </div>
+{%include "footer.html"%}
+
 </body>
+</html>

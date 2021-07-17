@@ -1,29 +1,26 @@
-// stored procedure for updating availability of a car //
-
-CREATE PROCEDURE update_avail(reg varchar(50), confirmation int)
+// STORED PROCEDURE FOR UPDATING AVAILABILITY OF A CAR //
+CREATE PROCEDURE update_avail(reg varchar(50), confirmation int,status int)
 UPDATE car 
-SET availability=IF(confirmation=0,1,0)
-WHERE car.id=reg;
+SET availability=0
+WHERE car.id=reg
+AND status=0
+AND confirmation=1;
 
-// trigger //
-
+// TRIGGER TO UPDATE AVAILABILITY WHEN ORDER IS PLACED//
 create trigger on_order_placed
 AFTER UPDATE 
 ON booking
 FOR EACH ROW
-CALL update_avail(NEW.reg_num_id, NEW.confirm);
+CALL update_avail(NEW.reg_num_id, NEW.confirm, NEW.status);
 
 
-
-// stored procedure for calculating tax amount and late fee //
-
+// STORED PROCEDURE FOR CALCULATING TAX AMOUNT AND LATE FEE //
 DELIMITER /
 drop procedure calculate_late_fee_and_tax;
 CREATE PROCEDURE CALCULATE_LATE_FEE_AND_TAX
 (IN actualReturnDateTime DATETIME, IN returnDateTime DATETIME, IN regNum INT, IN amount INT,
 OUT totalLateFee INT,
 OUT totalTax INT) 
-
 BEGIN
 DECLARE lateFeePerHour INT;
 DECLARE hourDifference INT;
@@ -31,11 +28,9 @@ DECLARE car_avail INT;
  SELECT late_fee INTO lateFeePerHour
  FROM category CC INNER JOIN CAR C ON CC.id =
  C.category_id WHERE C.id = regNum;
-
 UPDATE car 
 SET availability=1
 WHERE car.id=regNum;
-
  IF actualReturnDateTime > returnDateTime THEN
  SET hourDifference = (Datediff(actualReturnDateTime, returnDateTime))*(24);
  SET totalLateFee = hourDifference * lateFeePerHour;
@@ -43,13 +38,10 @@ WHERE car.id=regNum;
  SET totalLateFee = 0;
  END IF;
  SET totalTax = (amount + totalLateFee)*0.0825;
- 
-END;
+ END;
 /
 
-
-// trigger //
-
+// TRIGGER TO GENERATE BILL//
 DELIMITER /
 DROP TRIGGER GENERATE_BILLING;
 CREATE TRIGGER GENERATE_BILLING
@@ -62,16 +54,12 @@ DECLARE totalLateFee INT;
 DECLARE totalTax INT;
 DECLARE totalAmount INT;
 IF NEW.act_ret_date IS NOT NULL AND NEW.status=1 THEN
-
  SELECT id INTO lastBillId FROM ( SELECT id, id AS
  RN FROM billing)AS bill
  WHERE RN= (SELECT MAX(id) FROM billing);
-
  SET newBillId = lastBillId+1;
-
  CALL CALCULATE_LATE_FEE_AND_TAX(NEW.act_ret_date, NEW.ret_date,
  NEW.reg_num_id,NEW.amt, @totalLateFee, @totalTax);
-
 SET totalAmount= NEW.amt + @totalLateFee + @totalTax;
  INSERT INTO billing (id,bill_date,bill_status,total_amount,tax_amount,booking_id_id,late_fee)
  VALUES (newBillId,NEW.act_ret_date,1,totalAmount,@totalTax,NEW.id,@totalLateFee);
@@ -79,10 +67,7 @@ END IF;
 END;
 /
 
-
-
-
-// Month By Month Revenue //
+// STORED PROCEDURE FOR MONTH BY MONTH REVENUE //
 CREATE PROCEDURE calculate_revenue_per_month(IN year INT)
 select year(bill_date),month(bill_date),count(id) AS num_bookings,sum(total_amount) 
 from billing 
@@ -90,10 +75,7 @@ WHERE year(bill_date)=year
 group by year(bill_date), month(bill_date)
 Order by month(bill_date);
 
-
-
-
-// Year Revenue //
+// STORED PROCEDURE FOR YEAR REVENUE //
 CREATE PROCEDURE calculate_revenue_per_year(IN year INT)
 select year(bill_date),count(id) AS num_bookings,sum(total_amount) 
 from billing 

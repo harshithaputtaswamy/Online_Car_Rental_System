@@ -7,7 +7,8 @@ admin.site.register(customer)
 
 class carAdmin(admin.ModelAdmin):
     list_display = ("name", "availability")
-    
+# class bookAdmin(admin.ModelAdmin):
+#     list_display = ("id", "status")    
 admin.site.register(car, carAdmin)
 admin.site.register(category)
 admin.site.register(address)

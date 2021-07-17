@@ -94,4 +94,4 @@ class billing(models.Model):
         db_table ="billing"
 
     def __str__(self):
-        return self.booking_id.dl_num.b_email    
+        return self.booking_id.dl_num.b_email + ' , ' + self.booking_id.reg_num.name 
