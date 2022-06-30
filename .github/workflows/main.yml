@@ -7,7 +7,6 @@ env:
   pat_token: ${{ secrets.PAT_TOKEN }} # Permissions: repo (all) and read:org
   secret_name: HELLO_WORLD
   secret_body: "Hello World!"
-  secret_environment: sandbox
 
 jobs:
   gh-set-secret:
