@@ -1,0 +1,35 @@
+name: gh-set-secret
+
+on:
+  workflow_dispatch:
+  
+env:
+  pat_token: ${{ secrets.PAT_TOKEN }} # Permissions: repo (all) and read:org
+  secret_name: HELLO_WORLD
+  secret_body: "Hello World!"
+  secret_environment: sandbox
+
+jobs:
+  gh-set-secret:
+    runs-on: ubuntu-latest
+    steps:
+      - name: gh auth login
+        shell: bash
+        run: gh auth login --with-token <<< $pat_token
+      - name: gh secret set env
+        shell: bash
+        run: |
+          repository='${{ github.repository }}'
+          gh secret set "$secret_name" --env "$secret_environment" --body "$secret_body" --repo $repository
+  gh-test-secret:
+    needs: [gh-set-secret]
+    runs-on: ubuntu-latest
+    environment:
+      name: sandbox
+    env:
+      secret: ${{ secrets.HELLO_WORLD }}
+    steps:
+      - name: echo secret
+        shell: bash
+        run: |
+          echo "Secret: $secret"
